@@ -1,2 +1,3 @@
-com\javaweb\api\NewAPI.class
 com\javaweb\Application.class
+com\javaweb\object\BuildingDTO.class
+com\javaweb\api\BuildingAPI.class
