@@ -5,6 +5,7 @@ public class BuildingDTO {
 	private Integer numberOfBasement;
 	private String ward;
 	private String street;
+	
 	public String getName() {
 		return name;
 	}
