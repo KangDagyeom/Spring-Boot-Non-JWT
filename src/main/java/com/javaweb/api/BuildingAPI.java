@@ -19,24 +19,28 @@ import com.javaweb.object.BuildingDTO;
 public class BuildingAPI {
 
 	@GetMapping
-	public List<BuildingDTO> getBuilding(@RequestParam(value = "name", required = false) String name,
+	public Object getBuilding(@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "numberOfBasement", required = false) Integer numberOfBasement,
 			@RequestParam(value = "ward", required = false) String ward) {
 
-		List<BuildingDTO> listBuilding = new ArrayList<BuildingDTO>();
-		BuildingDTO building1 = new BuildingDTO();
-		building1.setName("Thien");
-		building1.setNumberOfBasement(2);
-		building1.setWard("Nghiad");
-		building1.setStreet("ffe");
-		listBuilding.add(building1);
+		try {
+			System.out.print(5 / 0);
+		} catch (Exception e) {
+			ErrorHandler errorHandler = new ErrorHandler();
+			errorHandler.setError(e.getMessage());
+			List<String> details = new ArrayList<String>();
+			details.add("Khong the chia het cho 0 !");
+			errorHandler.setDetails(details);
+			return errorHandler;
+		}
+
 		BuildingDTO building2 = new BuildingDTO();
 		building2.setName("Thien Long");
 		building2.setNumberOfBasement(3);
 		building2.setWard("Nghiadew");
 		building2.setStreet("ffefe");
-		listBuilding.add(building2);
-		return listBuilding;
+
+		return building2;
 	}
 
 	@PostMapping
