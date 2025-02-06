@@ -4,32 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.javaweb.object.BuildingDTO;
+
+import CustomException.FieldRequiredException;
 
 @RestController
 @RequestMapping("/api/building")
 public class BuildingAPI {
 
-	@GetMapping
-	public Object getBuilding(@RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "numberOfBasement", required = false) Integer numberOfBasement,
-			@RequestParam(value = "ward", required = false) String ward) {
+	@PostMapping
+	public Object getBuilding(@RequestBody BuildingDTO building) {
 
 		try {
-			System.out.print(5 / 0);
-		} catch (Exception e) {
+
+			validateField(building);
+		} catch (FieldRequiredException e) {
 			ErrorHandler errorHandler = new ErrorHandler();
 			errorHandler.setError(e.getMessage());
 			List<String> details = new ArrayList<String>();
-			details.add("Khong the chia het cho 0 !");
+			details.add("Revision your input!");
 			errorHandler.setDetails(details);
 			return errorHandler;
 		}
@@ -40,13 +39,21 @@ public class BuildingAPI {
 		building2.setWard("Nghiadew");
 		building2.setStreet("ffefe");
 
-		return building2;
+		return null;
 	}
 
-	@PostMapping
-	public BuildingDTO postBuilding(@RequestBody BuildingDTO buildingDTO) {
-		return buildingDTO;
+	public void validateField(BuildingDTO buildingDTO) throws FieldRequiredException {
+		if (buildingDTO.getName() == null || buildingDTO.getName().equals("")
+				|| buildingDTO.getNumberOfBasement() == null) {
+			throw new FieldRequiredException("All fields are required !");
+
+		}
 	}
+
+//	@PostMapping
+//	public BuildingDTO postBuilding(@RequestBody BuildingDTO buildingDTO) {
+//		return buildingDTO;
+//	}
 
 	@DeleteMapping("/{id}/{name}")
 	public void deleteBuilding(@PathVariable("id") Integer id, @PathVariable("name") String name) {
