@@ -1,6 +1,6 @@
 package CustomException;
 
-public class FieldRequiredException extends Exception {
+public class FieldRequiredException extends RuntimeException {
 
 	public FieldRequiredException(String message) {
 		super(message);
