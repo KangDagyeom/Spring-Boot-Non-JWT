@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.javaweb.object.BuildingDTO;
 
-import CustomException.FieldRequiredException;
-
 @RestController
 @RequestMapping("/api/building")
 public class BuildingAPI {
@@ -39,13 +37,13 @@ public class BuildingAPI {
 		return null;
 	}
 
-	public void validateField(BuildingDTO buildingDTO) {
-		if (buildingDTO.getName() == null || buildingDTO.getName().equals("")
-				|| buildingDTO.getNumberOfBasement() == null) {
-			throw new FieldRequiredException("All fields are required !");
-
-		}
-	}
+//	public void validateField(BuildingDTO buildingDTO) {
+//		if (buildingDTO.getName() == null || buildingDTO.getName().equals("")
+//				|| buildingDTO.getNumberOfBasement() == null) {
+//			throw new GlobalExceptionHandler("All fields are required !");
+//
+//		}
+//	}
 
 //	@PostMapping
 //	public BuildingDTO postBuilding(@RequestBody BuildingDTO buildingDTO) {

@@ -1,4 +1,4 @@
-package com.javaweb.exception.copy;
+package com.javaweb.exception;
 
 import java.util.Arrays;
 
@@ -19,6 +19,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ErrorHandler errorResponse = new ErrorHandler();
 		errorResponse.setError(ex.getMessage());
 		errorResponse.setDetails(Arrays.asList("Vui lòng kiểm tra lại các trường bắt buộc."));
-		return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(errorResponse, HttpStatus.ALREADY_REPORTED);
 	}
 }
