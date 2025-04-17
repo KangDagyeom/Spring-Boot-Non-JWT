@@ -1,40 +1,48 @@
 package com.javaweb.api;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.javaweb.connection.BuildingDAO;
 import com.javaweb.object.BuildingDTO;
 
 @RestController
 @RequestMapping("/api/building")
 public class BuildingAPI {
+	BuildingDAO api = new BuildingDAO();
+	@GetMapping
+	public List<BuildingDTO> getBuilding(@RequestParam(name = "name") String name) {
+		String query = "SELECT * FROM building WHERE name LIKE ?";
+		
 
-	@PostMapping
-	public Object getBuilding(@RequestBody BuildingDTO building) {
+		List<BuildingDTO> result = new ArrayList();
+		try(Connection conn = api.getConnect();PreparedStatement stmt = conn.prepareStatement(query)) {
+			stmt.setString(1, "%" + name + "%");
 
-//		try {
-//
-//			validateField(building);
-//		} catch (FieldRequiredException e) {
-//			ErrorHandler errorHandler = new ErrorHandler();
-//			errorHandler.setError(e.getMessage());
-//			List<String> details = new ArrayList<String>();
-//			details.add("Revision your input!");
-//			errorHandler.setDetails(details);
-//			return errorHandler;
-//		}
-//
-//		BuildingDTO building2 = new BuildingDTO();
-//		building2.setName("Thien Long");
-//		building2.setNumberOfBasement(3);
-//		building2.setWard("Nghiadew");
-//		building2.setStreet("ffefe");
-		System.out.print(5 / 0);
-		return null;
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				BuildingDTO buildingDTO = new BuildingDTO();
+				buildingDTO.setName(rs.getString("name"));
+				buildingDTO.setStreet(rs.getString("street"));
+				buildingDTO.setWard(rs.getString("ward"));
+				buildingDTO.setNumberOfBasement(rs.getInt("numberofbasement"));
+				result.add(buildingDTO);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 //	public void validateField(BuildingDTO buildingDTO) {
